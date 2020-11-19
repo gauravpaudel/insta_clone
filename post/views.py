@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.contrib.auth.decorators import login_required
 
-from .models import Post, Stream
-
+from .models import Post, Stream, Tag
+from post.forms import NewPostForm
 
 @login_required
 def index(request):
@@ -24,3 +24,38 @@ def index(request):
 
 
     return render(request, 'index.html',context)
+
+@login_required
+def newPost(request):
+    user = request.user.id
+    tags_objs = []
+
+    if request.method == 'POST':
+        form = NewPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            picture = form.cleaned_data.get('picture')
+            caption = form.cleaned_data.get('caption')
+
+            tags_from = form.cleaned_data.get('tags')
+
+            tags_list = list(tags_from.split(';'))
+
+            for tag in tags_list:
+                t, created = Tag.objects.get_or_create(title =tag)
+                tags_objs.append(t)
+            
+            p,created = Post.objects.get_or_create(picture = picture, caption=caption, user_id = user)
+            p.tags.set(tags_objs)
+            p.save()
+            
+            return redirect('index')
+    else:
+        form = NewPostForm()
+
+
+    context = {
+        'form': form 
+           }       
+
+    return render(request, 'newpost.html',context)
+    
