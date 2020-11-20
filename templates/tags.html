@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title" style="font-size: 60px;">
+          #{{tag.title}}
+        </h1>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+<section class="section">
+    <div class="container">
+    
+        <div class="columns is-mobile is-multiline is-centered">
+            {% for post_item in post %}
+
+            <div class="column is-one-quarter">
+                <div class="box">
+                    
+                    <figure class="image is-256x256">
+                      <a href="{{post_item.get_absolute_url}}"> <img  src="{{ post_item.picture.url }}" alt=" image"> </a>
+                    </figure>
+                    
+                </div>    
+                
+               
+                
+            </div>
+            {% endfor %}
+        </div>
+  
+    </div>
+  </section>
+  
+
+{% endblock %}

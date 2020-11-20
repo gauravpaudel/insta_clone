@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth.decorators import login_required
 
@@ -58,4 +58,27 @@ def newPost(request):
            }       
 
     return render(request, 'newpost.html',context)
-    
+
+
+@login_required
+def postDetail(request, post_id):
+    post = get_object_or_404(Post,id=post_id)
+
+    context  = {
+        'post': post
+    }
+
+    return render(request,'post_detail.html',context)
+
+
+@login_required
+def tags(request, tag_slug):
+    tag = get_object_or_404(Tag, slug= tag_slug)
+    post = Post.objects.filter(tags = tag).order_by('-posted')
+
+    context = {
+        'post':post,
+        'tag': tag
+    }
+
+    return render(request, 'tags.html', context)
