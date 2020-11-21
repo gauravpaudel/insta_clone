@@ -33,8 +33,6 @@ class Tag(models.Model):
         return super().save(*args,**kwargs)
 
 
-
-
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     picture = models.ImageField(upload_to=user_directory_path, verbose_name='Picture', null = False)
@@ -73,6 +71,12 @@ class Stream(models.Model):
 
     def __str__(self):
         return '%s receives from %s ' % (self.user, self.following)
+
+class Likes(models.Model):
+    user  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_like')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_likes')
+    
+
 
 
 post_save.connect(Stream.add_post, sender = Post)

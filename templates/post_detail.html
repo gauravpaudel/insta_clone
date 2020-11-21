@@ -10,23 +10,40 @@
 
                 <div class="card">
                     <div class="card-image">
-                    <figure class="image is-4by3">
-                        <img src="{{post.picture.url}}" alt="Placeholder image">
-                    </figure>
+                        <figure class="image is-4by3">
+                            <img src="{{post.picture.url}}" alt="Placeholder image">
+                        </figure>
                     </div>
                     <div class="card-content">
-                    <div class="media">
-                        <div class="media-left">
-                        <figure class="image is-48x48">
-                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                        </figure>
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                </figure>
+                            </div>
+
+                            <div class="media-content">
+                                <p class="title is-4">John Smith</p>
+                                <p class="subtitle is-6">@{{post.user}}</p>
+
+                            </div>
+
+                            <div class="media-right">
+                                <a href="#"> <span class="material-icons">save_alt</span></a>
+                                <p>Save Post</p>
+                            </div>
+
+
+                            <div class="media-right">
+                                <a href="{% url 'postlike' post.id %}"> <span class="material-icons {% if user.user_like.all %} has-text-danger {% else %} has-text-black {% endif %}">favorite</span></a>
+                                <p> {{post.likes}} Likes</p>
+                            </div>
+
                         </div>
-                        <div class="media-content">
-                        <p class="title is-4">John Smith</p>
-                        <p class="subtitle is-6">@{{post.user}}</p>
-                        </div>
-                    </div>
-                
+                    
+                   
+
+
                     <div class="content">
                        {{post.caption}}
                        <p>
@@ -37,6 +54,10 @@
                         <br>
                         <time datetime="2016-1-1">{{post.posted}}</time>
                     </div>
+
+                   
+
+
                     </div>
                 </div>    
 
@@ -51,7 +72,7 @@
                             </p>
                             </figure>
                             <div class="media-content">
-                            <div class="content">
+                            
                                 <p>
                                 <strong>Barbara Middleton</strong>
                                 <br>
@@ -60,7 +81,10 @@
                                 <small>3 hrs</small>
                                 </p>
                             </div>
-                        
+                            
+
+
+
                         </article>
 
                         <article class="media">

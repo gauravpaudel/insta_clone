@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth.decorators import login_required
 
-from .models import Post, Stream, Tag
+from .models import Post, Stream, Tag, Likes
 from post.forms import NewPostForm
 
 @login_required
@@ -21,7 +21,6 @@ def index(request):
     context = {
         'post_items':post_items
     }
-
 
     return render(request, 'index.html',context)
 
@@ -82,3 +81,26 @@ def tags(request, tag_slug):
     }
 
     return render(request, 'tags.html', context)
+
+
+@login_required
+def like(request, post_id):
+    user = request.user
+    post = Post.objects.get(id = post_id)
+    current_likes = post.likes
+
+    liked = Likes.objects.filter(user = user, post = post).count()
+
+    if not liked:
+        like = Likes.objects.create(user = user, post = post)
+        current_likes += 1
+
+    else:
+        Likes.objects.filter(user = user, post = post).delete()
+        current_likes -= 1
+    
+    post.likes = current_likes
+    post.save()
+
+    return redirect('post_detail',post.id)
+
