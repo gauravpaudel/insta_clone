@@ -104,3 +104,4 @@ def like(request, post_id):
 
     return redirect('post_detail',post.id)
 
+

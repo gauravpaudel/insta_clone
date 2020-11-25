@@ -78,5 +78,6 @@ class Likes(models.Model):
     
 
 
-
 post_save.connect(Stream.add_post, sender = Post)
+
+
